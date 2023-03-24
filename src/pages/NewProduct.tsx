@@ -5,6 +5,9 @@ import uploadImage from "../apis/uploader";
 // import { addNewProduct } from "../apis/firebase.js";
 // import { uploadImage } from "../apis/uploader";
 export interface IProduct {
+	id?: string;
+	imgUrl?: string;
+	image?: string;
 	title?: string;
 	price?: number;
 	options?: string;

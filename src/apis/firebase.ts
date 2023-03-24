@@ -49,6 +49,14 @@ async function adminUser(user: User) {
 			return { ...user, isAdmin };
 		});
 }
+export async function getProducts(): Promise<IProduct[]> {
+	const snapshot = await get(child(dbRef, "products")); //
+	if (snapshot.exists()) {
+		const data: IProduct[] = Object.values(snapshot.val());
+		return data;
+	}
+	return [];
+}
 
 export async function addNewProduct(product: IProduct, imgUrl: string) {
 	const id = uuid();
