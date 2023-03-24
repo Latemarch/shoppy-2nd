@@ -7,7 +7,7 @@ import {
 	signOut,
 	onAuthStateChanged,
 } from "firebase/auth";
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, remove, set } from "firebase/database";
 import { IProduct } from "../pages/NewProduct";
 import { v4 as uuid } from "uuid";
 
@@ -58,12 +58,40 @@ export async function getProducts(): Promise<IProduct[]> {
 	return [];
 }
 
+export async function getProduct(id: string | undefined): Promise<IProduct> {
+	const snapshot = await get(child(dbRef, `products/${id}`)); //
+	if (snapshot.exists()) {
+		const data: IProduct = snapshot.val();
+		return data;
+	}
+	return {};
+}
 export async function addNewProduct(product: IProduct, imgUrl: string) {
 	const id = uuid();
+	if (typeof product.options !== "string") {
+		return;
+	}
 	set(ref(database, `products/${id}`), {
 		...product,
 		imgUrl,
 		id,
 		options: product.options?.split(","),
 	});
+}
+
+export async function getCart(userId: string): Promise<any[]> {
+	const snapshot = await get(child(dbRef, `carts/${userId}`)); //
+	const items = snapshot.val() || {};
+	return Object.values(items);
+}
+
+export async function addOrUpdateToCart(
+	userId: string,
+	item: IProduct | undefined
+) {
+	return set(ref(database, `carts/${userId}/${item?.id}`), item);
+}
+
+export async function removeFromCart(userId: string, item: IProduct) {
+	return remove(ref(database, `carts/${userId}/${item.id}`));
 }

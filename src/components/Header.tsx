@@ -2,6 +2,7 @@ import { BsCart, BsPen, BsShop } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { IValue, useAuthContext } from "../context/AuthContextProvider";
 import Button from "./Button";
+import CartStatus from "./CartStatus";
 import UserFC from "./UserFC";
 
 export default function Header() {
@@ -20,7 +21,7 @@ export default function Header() {
 				</Link>
 				<Link to="/products">Products</Link>
 				<Link to="/cart" className="text-2xl">
-					{user && <BsCart />}
+					{user && <CartStatus />}
 				</Link>
 				{!user ? (
 					<Button text={"Login"} onClick={login} />

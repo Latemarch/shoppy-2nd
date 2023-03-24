@@ -10,7 +10,8 @@ export interface IProduct {
 	image?: string;
 	title?: string;
 	price?: number;
-	options?: string;
+	options?: string | string[];
+	quantity?: number;
 }
 
 export default function NewProductShoppy() {
