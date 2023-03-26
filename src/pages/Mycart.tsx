@@ -13,7 +13,7 @@ export default function Mycart() {
 	return (
 		<ul className="flex my-10 flex-col items-center">
 			{products?.map((p) => (
-				<CartItem key={user?.uid} product={p} user={user} />
+				<CartItem key={user?.uid} product={p} />
 			))}
 		</ul>
 	);

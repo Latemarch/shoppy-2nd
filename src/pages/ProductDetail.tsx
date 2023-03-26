@@ -1,14 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { addOrUpdateToCart, getProduct } from "../apis/firebase";
+import { getProduct } from "../apis/firebase";
 import Button from "../components/Button";
-import { IValue, useAuthContext } from "../context/AuthContextProvider";
+import useCart from "../hooks/useCart";
 import { IProduct } from "./NewProduct";
 
 export default function ProductDetail() {
-	const { user } = useAuthContext() as IValue;
-	const [selected, setSelected] = useState();
+	const { addOrUpdateItem } = useCart();
 	const { id } = useParams<{ id: string }>();
 	const { isLoading, data: item } = useQuery<IProduct>(
 		["product", id],
@@ -18,7 +16,7 @@ export default function ProductDetail() {
 	const handleSelect = () => {};
 	const handleClick = () => {
 		const product = { ...item, quantity: 1 };
-		user?.uid && addOrUpdateToCart(user?.uid, product);
+		addOrUpdateItem.mutate(product);
 	};
 
 	return (

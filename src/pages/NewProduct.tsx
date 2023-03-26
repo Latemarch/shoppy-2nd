@@ -1,9 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { addNewProduct } from "../apis/firebase";
 import uploadImage from "../apis/uploader";
-// import { addNewProduct } from "../apis/firebase.js";
-// import { uploadImage } from "../apis/uploader";
+import useProduct from "../hooks/useProduct";
+
 export interface IProduct {
 	id?: string;
 	imgUrl?: string;
@@ -20,12 +18,7 @@ export default function NewProductShoppy() {
 	const [success, setSuccess] = useState<string | null>(null);
 	const [isLoading, setLoading] = useState<boolean>(false);
 
-	const queryClient = useQueryClient();
-	const addProduct = useMutation(
-		({ product, url }: { product: IProduct; url: string }) =>
-			addNewProduct(product, url),
-		{ onSuccess: () => queryClient.invalidateQueries(["products"]) }
-	);
+	const { addProduct } = useProduct();
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value, files } = e.target;
@@ -39,18 +32,6 @@ export default function NewProductShoppy() {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setLoading(true);
-		// uploadImage(file)
-		// 	.then((url) => {
-		// 		console.log("outisde", url);
-		// 		addNewProduct(product, url) //
-		// 			.then(() => {
-		// 				setSuccess("성공적으로 제품이 추가되었습니다.");
-		// 				setTimeout(() => {
-		// 					setSuccess(null);
-		// 				}, 4000);
-		// 			});
-		// 	})
-		// 	.finally(() => setLoading(false));
 		uploadImage(file).then((urlJson) => {
 			const parsedUrl = JSON.parse(urlJson);
 			const url = parsedUrl.url;

@@ -1,7 +1,6 @@
 import { User } from "firebase/auth";
 import { AiOutlineMinusSquare, AiOutlinePlusSquare } from "react-icons/ai";
 import { BsFillTrash3Fill } from "react-icons/bs";
-import { addOrUpdateToCart, removeFromCart } from "../apis/firebase";
 import useCart from "../hooks/useCart";
 
 interface ICartItem {
@@ -14,27 +13,24 @@ interface ICartItem {
 }
 interface ICart {
 	product: ICartItem;
-	user: User | null;
 }
-export default function CartItem({ product, user }: ICart) {
+export default function CartItem({ product }: ICart) {
 	const { removeItem, addOrUpdateItem } = useCart();
 	const handleClickMinus = () => {
 		if (product.quantity > 1)
-			user &&
-				addOrUpdateItem.mutate({
-					...product,
-					quantity: product.quantity - 1,
-				});
-	};
-	const handleClickPlus = () => {
-		user &&
 			addOrUpdateItem.mutate({
 				...product,
-				quantity: product.quantity + 1,
+				quantity: product.quantity - 1,
 			});
 	};
+	const handleClickPlus = () => {
+		addOrUpdateItem.mutate({
+			...product,
+			quantity: product.quantity + 1,
+		});
+	};
 	const handleDelete = () => {
-		user && removeItem.mutate(product.id);
+		removeItem.mutate(product.id);
 	};
 	return (
 		<li className="w-[80%] m-2 flex items-center justify-center rounded-md shadow-md bg-gray-100">
