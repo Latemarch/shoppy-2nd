@@ -6,7 +6,7 @@ import { IValue, useAuthContext } from "../context/AuthContextProvider";
 
 export default function Mycart() {
 	const { user } = useAuthContext() as IValue;
-	const { data: products, isLoading } = useQuery(["cart", user?.uid], () =>
+	const { data: products, isLoading } = useQuery(["carts", user?.uid], () =>
 		getCart(user ? user.uid : "")
 	);
 	isLoading && <p>Loading...</p>;

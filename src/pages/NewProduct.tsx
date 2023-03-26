@@ -1,4 +1,4 @@
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { addNewProduct } from "../apis/firebase";
 import uploadImage from "../apis/uploader";
@@ -20,12 +20,12 @@ export default function NewProductShoppy() {
 	const [success, setSuccess] = useState<string | null>(null);
 	const [isLoading, setLoading] = useState<boolean>(false);
 
-	// const queryClient = useQueryClient();
-	// const addProduct = useMutation(
-	// 	({ product, url }: { product: IProduct; url: string }) =>
-	// 		addNewProduct(product, url),
-	// 	{ onSuccess: () => queryClient.invalidateQueries(["products"]) }
-	// );
+	const queryClient = useQueryClient();
+	const addProduct = useMutation(
+		({ product, url }: { product: IProduct; url: string }) =>
+			addNewProduct(product, url),
+		{ onSuccess: () => queryClient.invalidateQueries(["products"]) }
+	);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value, files } = e.target;
@@ -39,31 +39,32 @@ export default function NewProductShoppy() {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setLoading(true);
-		uploadImage(file)
-			.then((url) => {
-				console.log("outisde", url);
-				addNewProduct(product, url) //
-					.then(() => {
-						setSuccess("성공적으로 제품이 추가되었습니다.");
-						setTimeout(() => {
-							setSuccess(null);
-						}, 4000);
-					});
-			})
-			.finally(() => setLoading(false));
-		// uploadImage(file).then((urlJson) => {
-		// 	const parsedUrl = JSON.parse(urlJson);
-		// 	const url = parsedUrl.url;
-		// 	addProduct.mutate(
-		// 		{ product, url },
-		// 		{
-		// 			onSuccess: () => {
-		// 				setSuccess("Uploading is completed.");
-		// 				setTimeout(() => setSuccess(null), 4000);
-		// 			},
-		// 		}
-		// 	);
-		// });
+		// uploadImage(file)
+		// 	.then((url) => {
+		// 		console.log("outisde", url);
+		// 		addNewProduct(product, url) //
+		// 			.then(() => {
+		// 				setSuccess("성공적으로 제품이 추가되었습니다.");
+		// 				setTimeout(() => {
+		// 					setSuccess(null);
+		// 				}, 4000);
+		// 			});
+		// 	})
+		// 	.finally(() => setLoading(false));
+		uploadImage(file).then((urlJson) => {
+			const parsedUrl = JSON.parse(urlJson);
+			const url = parsedUrl.url;
+			addProduct.mutate(
+				{ product, url },
+				{
+					onSuccess: () => {
+						setSuccess("Uploading is completed.");
+						setTimeout(() => setSuccess(null), 4000);
+						setLoading(false);
+					},
+				}
+			);
+		});
 	};
 
 	return (
