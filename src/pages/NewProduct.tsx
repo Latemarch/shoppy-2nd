@@ -32,9 +32,7 @@ export default function NewProductShoppy() {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setLoading(true);
-		uploadImage(file).then((urlJson) => {
-			const parsedUrl = JSON.parse(urlJson);
-			const url = parsedUrl.url;
+		uploadImage(file).then((url) => {
 			addProduct.mutate(
 				{ product, url },
 				{

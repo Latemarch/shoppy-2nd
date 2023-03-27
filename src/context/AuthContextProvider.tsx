@@ -1,5 +1,5 @@
 import { User } from "firebase/auth";
-import React, {
+import {
 	createContext,
 	ReactNode,
 	useContext,

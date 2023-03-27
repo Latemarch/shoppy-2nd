@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 import { BsCart } from "react-icons/bs";
 import { getCart } from "../apis/firebase";
 import { IValue, useAuthContext } from "../context/AuthContextProvider";

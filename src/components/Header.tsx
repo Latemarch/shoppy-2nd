@@ -1,4 +1,4 @@
-import { BsCart, BsPen, BsShop } from "react-icons/bs";
+import { BsPen, BsShop } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { IValue, useAuthContext } from "../context/AuthContextProvider";
 import Button from "./Button";

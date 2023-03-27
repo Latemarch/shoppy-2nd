@@ -13,12 +13,7 @@ export default function ProductDetail() {
 		() => getProduct(id),
 		{ enabled: !!id }
 	);
-	const handleSelect = () => {};
-	const handleClick = () => {
-		const product = { ...item, quantity: 1 };
-		addOrUpdateItem.mutate(product);
-	};
-
+	const handleClick = () => addOrUpdateItem.mutate({ ...item, quantity: 1 });
 	return (
 		<div>
 			{isLoading && <h1>Loading...</h1>}

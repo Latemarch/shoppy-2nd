@@ -6,10 +6,6 @@ import { IProduct } from "../pages/NewProduct";
 import ProductCard from "./ProductCard";
 
 export default function Products() {
-	// const { isLoading, data: items } = useQuery<IProduct[]>(
-	// 	["products"],
-	// 	getProducts
-	// );
 	const {
 		productQuery: { data: items, isLoading },
 	} = useProduct();
